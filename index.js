@@ -135,3 +135,30 @@ app.delete('/products/:id', async (req,res)=>{
         res.status(500).send({message: error.message});
     }
 });
+
+//route for update single data
+app.put('/products/:id', async (req,res)=>{
+    
+    try{
+        const id  = req.params.id;
+        const product = await  Product.updateOne({_id:id},{
+            $set: {
+                price:2000
+            },
+        });
+        if(product){
+            res.status(200).send({
+                success:true,
+                message: 'product updated',
+                data:product 
+            })
+        }else{
+            res.status(404).send({
+                success:false,
+                message: 'product was not found with this id' 
+            })
+        }
+    }catch(error){
+        res.status(500).send({message: error.message});
+    }
+});
