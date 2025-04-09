@@ -112,3 +112,26 @@ app.get('/products/:id', async (req,res)=>{
         res.status(500).send({message: error.message});
     }
 });
+
+//route for delete single data
+app.delete('/products/:id', async (req,res)=>{
+    
+    try{
+        const id  = req.params.id;
+        const product = await  Product.deleteOne({_id:id});
+        if(product){
+            res.status(200).send({
+                success:true,
+                message: 'product deleted',
+                data:product 
+            })
+        }else{
+            res.status(404).send({
+                success:false,
+                message: 'product was not found with this id' 
+            })
+        }
+    }catch(error){
+        res.status(500).send({message: error.message});
+    }
+});
